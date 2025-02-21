@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RideLink - Your Trusted Local Vanpooling Partner</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>    
     <style>
         /* Logo styles */
         .main-logo {
@@ -104,7 +104,7 @@
         .hero {
             height: 60vh;
             min-height: 400px;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('bg.jpg');
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/bg.jpg');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -266,14 +266,13 @@
     <header class="header">
         <nav class="nav-container">
             <div class="logo-container">
-                <img src="logo.png" alt="RideLink Logo" class="main-logo">
+                <img src="images/logo.jpg" alt="RideLink Logo" class="main-logo">
             </div>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#services">Services</a>
                 <a href="#warranty">Warranty</a>
                 <a href="#contact">Contact</a>
-                <a href="#" class="btn">Register</a>
             </div>
         </nav>
     </header>
@@ -288,7 +287,7 @@
     <section id="about" class="section">
         <div class="section-content">
             <h2>About RideLink (Sympawthy LLC)</h2>
-            <img src="van.jpg" alt="Comfortable Van Interior" class="experience-image">
+            <img src="images/van.jpg" alt="Comfortable Van Interior" class="experience-image">
             <p>Proudly veteran-owned and operated, RideLink provides reliable and eco-friendly transportation alternatives aboard our brand-new fleet of 2025 Toyota Sienna hybrid vans. We're committed to serving the entire DMV area with excellence, offering fuel-efficient and eco-friendly transportation solutions perfect for federal employees and all commuters.</p>
         </div>
     </section>
@@ -297,9 +296,9 @@
         <div class="section-content">
             <h2>Our Services</h2>
             <div class="fleet-gallery">
-                <img src="people.jpg" alt="2025 Toyota Sienna Van" class="fleet-image">
-                <img src="sienna.png" alt="RideLink Fleet" class="fleet-image">
-                <img src="fleet.jpg" alt="Modern Sienna Interior" class="fleet-image">
+                <img src="images/people.jpg" alt="2025 Toyota Sienna Van" class="fleet-image">
+                <img src="images/sienna.png" alt="RideLink Fleet" class="fleet-image">
+                <img src="images/fleet.jpg" alt="Modern Sienna Interior" class="fleet-image">
             </div>
             
             <div class="services-grid">
@@ -359,11 +358,12 @@
         <div class="section-content">
             <h2>Contact Us</h2>
             <div class="contact-container">
-                <form class="contact-form">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea rows="5" placeholder="Your Message" required></textarea>
+                <form class="contact-form" id="gform" onsubmit="handleFormSubmit(event)">
+                    <input type="text" placeholder="Your Name" name="entry.1136531137" id="entry.1136531137" required>
+                    <input type="email" placeholder="Your Email" name="entry.1234769558" id="entry.1234769558" required>
+                    <textarea rows="5" placeholder="Your Message" name="entry.1973528543" id="entry.1973528543" required></textarea>
                     <button type="submit" class="btn">Send Message</button>
+                    <div id="formStatus" style="margin-top: 1rem; display: none;"></div>
                 </form>
                 <div class="contact-info">
                     <h3>Visit Us</h3>
@@ -376,7 +376,7 @@
     </section>
 
     <footer>
-        <p>© 2025 Sympawthy LLC. All rights reserved.</p>
+        <p>© 2025 RideLink- Sympawthy LLC. All rights reserved.</p>
     </footer>
 
     <script>
@@ -406,6 +406,58 @@
             duration: 1,
             stagger: 0.2
         });
+
+        // Form submission handling
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('gform');
+            const formStatus = document.getElementById('formStatus');
+            const submitButton = form.querySelector('button[type="submit"]');
+            
+            // Disable submit button and show loading state
+            submitButton.disabled = true;
+            formStatus.style.display = 'block';
+            formStatus.style.color = '#666';
+            formStatus.textContent = 'Sending message...';
+
+            // Construct the form data
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams();
+
+            // Add form fields to search params
+            for (const pair of formData) {
+                searchParams.append(pair[0], pair[1]);
+            }
+
+            // Send to Google Forms
+            fetch('https://docs.google.com/forms/d/e/1FAIpQLScOKOliS3VPeNKLGE2T0k0Nf7yrKAY7RxglpOOwbzkFuOmemg/formResponse', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: searchParams.toString()
+            })
+            .then(() => {
+                // Show success message
+                formStatus.style.color = '#28a745';
+                formStatus.textContent = 'Thank you for your message! We\'ll get back to you soon.';
+                form.reset();
+            })
+            .catch(error => {
+                // Show error message
+                formStatus.style.color = '#dc3545';
+                formStatus.textContent = 'There was an error sending your message. Please try again.';
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                // Hide status message after 5 seconds
+                setTimeout(() => {
+                    formStatus.style.display = 'none';
+                }, 5000);
+            });
+        } 
     </script>
 </body>
 </html>
