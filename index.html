@@ -8,7 +8,7 @@
     <style>
         /* Logo styles */
         .main-logo {
-            width: 200px;
+            width: 150px;
             height: auto;
         }
         
@@ -16,6 +16,15 @@
             display: flex;
             align-items: center;
             gap: 1rem;
+        }
+        
+        /* New style for company name in header */
+        .company-name {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            white-space: nowrap;
+            font-family: Helvetica;
         }
         
         .fleet-gallery {
@@ -38,6 +47,41 @@
             height: auto;
             border-radius: 10px;
             margin: 2rem 0;
+        }
+        
+        /* Routes section styles */
+        .routes-section {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: #f5f7fa;
+            border-radius: 10px;
+        }
+        
+        .routes-list {
+            margin-top: 1.5rem;
+            list-style: none;
+        }
+        
+        .routes-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: center;
+        }
+        
+        .routes-list li:before {
+            content: "→";
+            color: var(--accent);
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .routes-note {
+            margin-top: 1.5rem;
+            font-style: italic;
+            padding: 1rem;
+            background: rgba(255, 165, 0, 0.1);
+            border-left: 3px solid var(--accent);
         }
         
         :root {
@@ -77,11 +121,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .main-logo {
-            width: 150px;
-            height: auto;
         }
 
         .nav-links {
@@ -259,6 +298,10 @@
             .contact-container {
                 grid-template-columns: 1fr;
             }
+            
+            .company-name {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
@@ -267,6 +310,7 @@
         <nav class="nav-container">
             <div class="logo-container">
                 <img src="images/logo.jpg" alt="RideLink Logo" class="main-logo">
+                <div class="company-name">RideLink - Sympawthy LLC</div>
             </div>
             <div class="nav-links">
                 <a href="#about">About</a>
@@ -315,6 +359,19 @@
                     <p>Support a business that's led by those who served, bringing military precision to civilian transportation.</p>
                 </div>
             </div>
+            
+            <!-- New Routes Section -->
+            <div class="routes-section">
+                <h3>Currently Operated Routes</h3>
+                <ul class="routes-list">
+                    <li>Clarksville, MD to White Oak Campus</li>
+                    <li>Ellicott City, MD to White Oak Campus</li>
+                    <li>Clarksburg, MD to White Oak Campus</li>
+                </ul>
+                <div class="routes-note">
+                    <p>Customers can request routes as needed. Contact us for a custom quote for your commuting needs.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -347,7 +404,7 @@
                     <div class="feature-icon">✓</div>
                     <div>
                         <h3>Guarantee Home Service</h3>
-                        <p>Free transportation home Up to four emergency taxi rides per month included if you get stuck on the road or at work.</p>
+                        <p>Up to four emergency taxi rides home per month if you get stuck on the road.</p>
                     </div>
                 </div>
             </div>
@@ -405,6 +462,15 @@
             opacity: 0,
             duration: 1,
             stagger: 0.2
+        });
+        
+        // Additional animation for the routes section
+        gsap.from('.routes-list li', {
+            scrollTrigger: '.routes-section',
+            x: -30,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.15
         });
 
         // Form submission handling
